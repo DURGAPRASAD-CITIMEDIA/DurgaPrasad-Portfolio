@@ -23,42 +23,40 @@ export default function Contact() {
       [name]: value,
     }));
   };
+// changed
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setResult("Sending...");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setResult("Sending...");
+  const formDataToSend = new FormData();
+  formDataToSend.append("access_key", "YOUR_NEW_KEY_HERE");
+  formDataToSend.append("name", formData.name);
+  formDataToSend.append("email", formData.email);
+  formDataToSend.append("message", formData.message);
 
-    const formDataToSend = new FormData();
-    formDataToSend.append(
-      "access_key",
-      "d4358a8e-8352-4fa8-b32c-47171ec3a383"
-    );
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("message", formData.message);
-
+  try {
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
       body: formDataToSend,
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (data.success) {
-      setResult("✓ Thank you! Your message has been sent successfully.");
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
-
-      setTimeout(() => {
-        setResult("");
-      }, 3000);
+      setResult("✓ Message sent successfully!");
+      setFormData({ name: "", email: "", message: "" });
     } else {
-      setResult("❌ Error sending message");
+      setResult(data.message || "❌ Error sending message");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    setResult("❌ Network error");
+  }
+};
 
   return (
     <section id="contact" className="contact">
