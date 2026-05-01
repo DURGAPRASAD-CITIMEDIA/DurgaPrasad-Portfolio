@@ -29,7 +29,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   setResult("Sending...");
 
   const formDataToSend = new FormData();
-  formDataToSend.append("access_key", "YOUR_NEW_KEY_HERE");
+  formDataToSend.append("access_key", "d4358a8e-8352-4fa8-b32c-47171ec3a383");
   formDataToSend.append("name", formData.name);
   formDataToSend.append("email", formData.email);
   formDataToSend.append("message", formData.message);
